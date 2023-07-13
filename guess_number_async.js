@@ -3,6 +3,9 @@
 //import readline module
 const readline = require('readline');
 
+// import generaterandomNumber function from the other module
+const generaterandomNumber = require('./guess_number_sync.js')
+
 // main function
 function playGame(randomNumber, userInput){
   if (randomNumber===userInput){
@@ -28,7 +31,6 @@ function userInput(count, randomNumber){
 
   rl.question('Enter a number ', function(string){
     const userGuess = parseFloat(string)
-    console.log(userGuess)
     guessisCorrect = playGame(randomNumber, userGuess)
     rl.close()
     if (count<5 && !guessisCorrect){
@@ -36,12 +38,20 @@ function userInput(count, randomNumber){
       userInput(count+1, randomNumber)
     }
 
+    // unsuccess message
+    if (count==5 && !guessisCorrect){
+      console.log('Attempts Exhausted!')
+    }
+
   });
 }
 
-// generate random num
-const randomNumber = generateRandomNumber()
+// Generate random number
+const randomNumber = generaterandomNumber();
 
-// trigger user prompts
-userInput(1, randomNumber)
-
+// Check if the current file is the main module
+if (require.main === module) {
+  
+  // Trigger user prompts
+  userInput(1, randomNumber);
+}
