@@ -42,6 +42,10 @@ This repository contains code files that cover various JavaScript concepts, incl
 - **Concepts Covered**: Promises to control async execution flow, arrays, objects, loops, functions, arrow functions, dtypes, scoping etc. 
 - **Description**:  This file mplements a command line interface for adding items to a cart. It utilizes the readline module to prompt the user for item details such as name, price, and quantity. The user can add multiple items to the cart by responding to the question "Another item? y/n". The code validates user input and handles errors if a wrong key is pressed using promises. Once the user finishes adding items, the contents of the cart are displayed.
 
+### 8. opp.js
+- **Concepts Covered**: OOP in .js. Class properties, class methods. (No inheritance or encapsulation yet!) 
+- **Description**:  This JavaScript file defines a Car class that represents a car object. The Car class has properties like make, model, year, and methods like `startEngine()`, `stopEngine()`, and `drive()`. It allows you to interact with a car by starting and stopping the engine, and driving it.
+
 ## Usage
 
 Feel free to explore the code files in this repository to better understand the covered concepts. Each file is self-contained and can be run independently.
