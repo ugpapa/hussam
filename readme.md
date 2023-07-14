@@ -40,7 +40,7 @@ This repository contains code files that cover various JavaScript concepts, incl
 
 ### 7. cart_project_promises.js
 - **Concepts Covered**: Promises to control async execution flow, arrays, objects, loops, functions, arrow functions, dtypes, scoping etc. 
--- ***Description**:  This file mplements a command line interface for adding items to a cart. It utilizes the readline module to prompt the user for item details such as name, price, and quantity. The user can add multiple items to the cart by responding to the question "Another item? y/n". The code validates user input and handles errors if a wrong key is pressed using promises. Once the user finishes adding items, the contents of the cart are displayed.
+- **Description**:  This file mplements a command line interface for adding items to a cart. It utilizes the readline module to prompt the user for item details such as name, price, and quantity. The user can add multiple items to the cart by responding to the question "Another item? y/n". The code validates user input and handles errors if a wrong key is pressed using promises. Once the user finishes adding items, the contents of the cart are displayed.
 
 ## Usage
 
