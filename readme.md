@@ -50,6 +50,10 @@ This repository contains code files that cover various JavaScript concepts, incl
 - **Concepts Covered**: Promises, async methods (`setTimeout()`), async handling through promises, functions, recursive functions, conditionals, user inputs, etc.
 - **Description**: This file simulates a file download operation from a site. It prompts user to check if the user wants to download a file. It allows the user to do multiple file downloads. Download time is simulated using `setTimeout()` method, which is an async method, built-in to .js. The file demonstrates the ability to handle async processes in .js using promises. It also demonstrates the ability to use recursive logic.
 
+### 9. async_await.js
+- **Concepts Covered**: Async handling using promises and async/await; async handling using promises and `.then()` and `.catch()`
+- **Description**: This file introduces a JavaScript code snippet that demonstrates handling asynchronous requests using Promises and async/await. Two functions, makeRequest and processRequest, simulate async operations and return Promises. The withoutAsyncAwait function uses Promises with .then and .catch to handle the request flow, while the main function utilizes async/await for a more concise and synchronous-like structure. The code provides a practical illustration of handling asynchronous operations with both approaches.
+
 ## Usage
 
 Feel free to explore the code files in this repository to better understand the covered concepts. Each file is self-contained and can be run independently.
