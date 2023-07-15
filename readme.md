@@ -6,7 +6,7 @@ This repository contains code files that cover various JavaScript concepts, incl
 ## Folders
 ### 1. dom_manipulation
 
-This folder contains code examples and exercises related to DOM (Document Object Model) manipulation techniques. By practicing different DOM manipulation methods, gained a better understanding of how to interact with and modify HTML elements using JavaScript on the client-side.
+This folder contains code examples and exercises related to DOM (Document Object Model) manipulation techniques. By practicing different DOM manipulation methods, gained a better understanding of how to interact with and modify HTML elements (client-side) using JavaScript.
 
 The exercises cover the following topics:
 
