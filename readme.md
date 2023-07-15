@@ -36,7 +36,7 @@ This repository contains code files that cover various JavaScript concepts, incl
 
 ### 6. promises.js
 - **Concepts Covered**: Promises
-- ***Description**: This file covers the concept of promises in .js. It focuses on practicing the syntax. Moreover, it also compares promises with callbacks. The file also practices different promise methods like `promise.all` and `promise.race`.
+- **Description**: This file covers the concept of promises in .js. It focuses on practicing the syntax. Moreover, it also compares promises with callbacks. The file also practices different promise methods like `promise.all` and `promise.race`.
 
 ### 7. cart_project_promises.js
 - **Concepts Covered**: Promises to control async execution flow, arrays, objects, loops, functions, arrow functions, dtypes, scoping etc. 
@@ -45,6 +45,10 @@ This repository contains code files that cover various JavaScript concepts, incl
 ### 8. opp.js
 - **Concepts Covered**: OOP in .js. Class properties, class methods. (No inheritance or encapsulation yet!) 
 - **Description**:  This JavaScript file defines a Car class that represents a car object. The Car class has properties like make, model, year, and methods like `startEngine()`, `stopEngine()`, and `drive()`. It allows you to interact with a car by starting and stopping the engine, and driving it.
+
+### 9. revise.js
+- **Concepts Covered**: Promises, async methods (`setTimeout()`), async handling through promises, functions, recursive functions, conditionals, user inputs, etc.
+- **Description**: This file simulates a file download operation from a site. It prompts user to check if the user wants to download a file. It allows the user to do multiple file downloads. Download time is simulated using `setTimeout()` method, which is an async method, built-in to .js. The file demonstrates the ability to handle async processes in .js using promises. It also demonstrates the ability to use recursive logic.
 
 ## Usage
 
