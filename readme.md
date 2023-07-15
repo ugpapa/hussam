@@ -2,6 +2,27 @@
 
 This repository contains code files that cover various JavaScript concepts, including data types, loops, conditionals, functions, and asynchronous handling. The code files added in this push are as follows:
 
+# Files and Folders
+## Folders
+### 1. dom_manipulation
+
+This folder contains code examples and exercises related to DOM (Document Object Model) manipulation techniques. By practicing different DOM manipulation methods, gained a better understanding of how to interact with and modify HTML elements using JavaScript on the client-side.
+
+The exercises cover the following topics:
+
+1. Selection: Learnt how to select elements from the DOM using various methods such as querySelector and querySelectorAll. Explored different ways to target specific elements based on class names, IDs, or other attributes.
+
+2. Adding New Elements: Discovered how to dynamically create new elements using createElement and append them to the DOM using appendChild. Explored ways to set text content, attributes, and styles for the newly created elements.
+
+3. Modifying Elements: Learnt how to modify existing elements by changing their properties, attributes, and styles. Update text content, modify CSS styles, and add or remove attributes to manipulate the appearance and behavior of elements.
+
+4. Traversing the DOM: Understood how to navigate the DOM tree by traversing parent nodes, child elements, and siblings. Explore methods such as parentNode, children, nextSibling, and previousSibling to traverse and interact with elements at different levels.
+
+5. Event Handling: Learnt how to respond to user interactions and events, such as clicks and key presses. Explored adding event listeners and callback functions to create interactive and responsive web applications.
+
+6. Removing Elements: Learnt how to remove elements from the DOM using methods like removeChild and remove.
+
+
 ## Files
 
 ### 1. callback.js
