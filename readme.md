@@ -22,6 +22,9 @@ The exercises cover the following topics:
 
 6. Removing Elements: Learnt how to remove elements from the DOM using methods like removeChild and remove.
 
+### 2. to_do_list
+
+This is a standalone folder that contains all the code and neccessary static files to build a simple 'To-do List' web app using JavaScript. It contains its own readme.md which you can view by cd'ing into `to_do_list dir`. 
 
 ## Files
 
