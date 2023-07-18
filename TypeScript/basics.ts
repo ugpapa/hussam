@@ -1,6 +1,6 @@
 // Interfaces in TypeScript define a contract that shapes the structure of an object.
 // They allow you to specify the shape of an object by describing the names and types of its properties.
-function main(): void {
+export function main(): void {
   interface Person {
     firstName: string;
     lastName: string;
@@ -68,15 +68,14 @@ function main(): void {
   console.log(typeof myString);
   console.log(typeof myNumber);
   console.log(typeof myBoolean);
-
 }
 
 function echoAgain<T>(input: T): T {
   return input;
 }
 
-let password = echoAgain(prompt("Enter password"));
 
+let password = echoAgain(prompt("Enter password"));
 if (password === "hussam") {
   main();
 } else {

@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.main = void 0;
 // Interfaces in TypeScript define a contract that shapes the structure of an object.
 // They allow you to specify the shape of an object by describing the names and types of its properties.
 function main() {
@@ -55,6 +58,7 @@ function main() {
     console.log(typeof myNumber);
     console.log(typeof myBoolean);
 }
+exports.main = main;
 function echoAgain(input) {
     return input;
 }
