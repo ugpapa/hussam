@@ -1,4 +1,3 @@
-"use strict";
 // 1. Type annotations: allows to define type of variable, function parameters and their return types
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -15,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
 // Variable type annotations
 var myString = "Hello World";
 var myNumber = 4;
@@ -134,8 +132,156 @@ var myGenericClass = new GenericClass("Hello World");
 myGenericClass.print();
 var myGenericInterface = { value: 5 };
 console.log(myGenericInterface.value);
-// // 5. Modules
-// // a. Exporting
-// b. Importing
-var basics_1 = require("./basics");
-(0, basics_1.main)();
+console.log("Here");
+// 5. Type Guards
+// a. typeof
+function processValue(value) {
+    if (typeof value === "number") {
+        // value is narrowed down to number type
+        console.log(value.toFixed(2));
+    }
+    else {
+        console.log(value.trim().toUpperCase());
+    }
+}
+processValue(5.1234);
+processValue("Hello World");
+// b. instanceof
+var Circle = /** @class */ (function () {
+    function Circle(radius) {
+        this.radius = radius;
+    }
+    Circle.prototype.getArea = function () {
+        return Math.PI * Math.pow(this.radius, 2);
+    };
+    return Circle;
+}());
+var Rectangle = /** @class */ (function () {
+    function Rectangle(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+    Rectangle.prototype.getArea = function () {
+        return this.width * this.height;
+    };
+    return Rectangle;
+}());
+function calculateArea(shape) {
+    if (shape instanceof Circle) {
+        console.log(shape.getArea().toFixed(2));
+    }
+    else {
+        console.log(shape.getArea().toFixed(2));
+    }
+}
+var myShape = new Circle(5);
+var myShape2 = new Rectangle(5, 10);
+calculateArea(myShape);
+calculateArea(myShape2);
+var frontEndTeam = /** @class */ (function () {
+    function frontEndTeam(name) {
+        this.name = name;
+    }
+    frontEndTeam.prototype.getTeam = function () {
+        return "frontend team";
+    };
+    return frontEndTeam;
+}());
+var backEndTeam = /** @class */ (function () {
+    function backEndTeam(name) {
+        this.name = name;
+    }
+    backEndTeam.prototype.getTeam = function () {
+        return "backend team";
+    };
+    return backEndTeam;
+}());
+function teamCheck(name) {
+    if (name instanceof frontEndTeam) {
+        console.log("".concat(name.name, " is from ").concat(name.getTeam()));
+    }
+    else {
+        console.log("".concat(name.name, " is from ").concat(name.getTeam()));
+    }
+}
+var member1 = new backEndTeam("Hussam");
+var member2 = new frontEndTeam("Joker");
+teamCheck(member1);
+teamCheck(member2);
+// 6. Type Assertion/Type Casting
+// a. Angle Bracket Syntax
+var myValue = "10";
+var myLengthExplicit = myValue.length;
+console.log(myLengthExplicit);
+console.log(typeof myLengthExplicit);
+// b. as Syntax
+var value = "Hello typescript";
+var length2 = value.length;
+console.log(length2);
+// 7. Type inference: eliminates the need for explicit type annotations
+// a. Variable type inference
+var myString2 = "Hello World";
+var myNumber2 = 4;
+var myBoolean2 = true;
+// b. Function return type inference
+function add2(num1, num2) {
+    return num1 + num2;
+}
+// c. Object type inference
+var myCar4 = {
+    make: "Honda",
+    model: "Civic",
+    year: 2000,
+};
+console.log(myCar3.make);
+console.log(typeof myCar3.make);
+var obj = {
+    print: function () {
+        console.log("printing");
+    },
+    log: function () {
+        console.log("loging");
+    },
+};
+function printAndLog(obj) {
+    obj.print();
+    obj.log();
+}
+printAndLog(obj);
+var Button = /** @class */ (function () {
+    function Button() {
+    }
+    Button.prototype.render = function () {
+        console.log("rendering");
+    };
+    Button.prototype.drag = function () {
+        console.log("dragging");
+    };
+    return Button;
+}());
+function renderAndDrag(obj) {
+    obj.render();
+    obj.drag();
+}
+// create an instance of button class that has only two methdos
+var button = new Button();
+renderAndDrag(button);
+function area(shape) {
+    if (shape.kind === "square") {
+        return shape.size * shape.size;
+    }
+    else {
+        return shape.width * shape.height;
+    }
+}
+var mySqaure = { kind: "square", size: 5 };
+var result1 = area(mySqaure);
+console.log(result1);
+var rect = {
+    x: { x: 10, y: 20 },
+    y: { x: 20, y: 30 },
+};
+function rectArea(rect) {
+    return (rect.y.x - rect.x.x) * (rect.y.y - rect.x.y);
+}
+console.log(rectArea(rect).toFixed(2));
