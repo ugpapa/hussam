@@ -33,3 +33,19 @@ class Item(BaseModel):
 @app.post("/items/") # Data sent to this route will be parsed and validated against the Item model
 def create_item(item: Item):
     return item                 
+
+
+
+@app.put("items/{item_id}")
+def update_item(item_id: int, item: Item):
+    return {"item_id": item_id, **item.dict()}
+
+class advItem(BaseModel):
+    id: int
+    name: str
+    is_featured: bool = False
+    is_verified: bool = False
+
+@app.put("items/{item_id}")
+def update_item(item_id: int, item: advItem):
+    return {"item_id": item_id, **item.dict()}
