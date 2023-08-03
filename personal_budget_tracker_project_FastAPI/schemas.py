@@ -20,16 +20,15 @@ class CategoryResponse(BaseModel):
     description: Optional[str] = Field(None, description="Description of the category")
 
 class Expense(BaseModel):
-    id: int = Field(..., description="Id of the expense")
-    date: Union[str, datetime.date] = Field(..., description="Date of the expense following the format YYYY-MM-DD")
     category: str = Field(..., description="Category of the expense")
+    date: Union[str, datetime.date] = Field(..., description="Date of the expense following the format YYYY-MM-DD")
     description: Optional[str] = Field(None, description="Description of the expense")
     amount: float = Field(..., description= "Amount of the expense")
     
     @validator('amount')
     def amount_must_be_positive(cls, v):
         if v<=0:
-            raise ValueError('Amount must be positive')
+            raise ValueError('Amount must be a positive number')
         return v
     
     @validator('date')
@@ -43,10 +42,18 @@ class Expense(BaseModel):
                 return v
 
         except ValueError:
-            raise ValueError("Incorrect data format, should be YYYY-MM-DD, got {v}")
+            raise ValueError(f"Incorrect data format, should be YYYY-MM-DD, got {v}")
             
-class ExpenseResponseList(BaseModel):
-    expenses: List[Expense] = Field(..., description="List of expenses")
+class ExpenseResponse(BaseModel):
+    id: int = Field(description="DB generated primary key")
+    category: CategoryResponse
+    date: Union[str, datetime.date] = Field(..., description="Date of the expense")
+    description: Optional[str] = Field(None, description="Description of the expense")
+    amount: float = Field(..., description="Amount of the expense")
+    
 
+class ExpenseResponseList(BaseModel):
+    result: List[ExpenseResponse] 
+    
 class CategoryResponseList(BaseModel):
-    response: List[CategoryResponse]
+    result: List[CategoryResponse]

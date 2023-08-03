@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, Date
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -12,7 +13,8 @@ class CategoryModel(Base):
 class ExpenseModel(Base):
     __tablename__ = 'expenses'
     id = Column(Integer, primary_key=True, index=True)
+    category_id = Column(Integer, ForeignKey('categories.id')) # Foreign Key
+    category = relationship("CategoryModel") # Get category model in expenses using the relationship
     date = Column(Date)
-    category = Column(String)
     description = Column(String)
     amount = Column(Float)

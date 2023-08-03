@@ -1,6 +1,6 @@
 # Create, update, delete, and fetch budget categories and expenses
 
-from fastapi import APIRouter, Depends, status, Response
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -18,8 +18,6 @@ def get_db():
 
 router = APIRouter()
 
-categories = []
-expenses = []
 
 # create category
 @router.post("/categories/",
@@ -46,7 +44,7 @@ async def create_category(payload: Category, db: Session = Depends(get_db)):
 async def get_categories(db: Session = Depends(get_db)):
     categories = db.query(CategoryModel).all()
     if categories:
-        return {"response": categories} # what you are returning must match the response_model
+        return {"result": categories} # what you are returning must match the response_model
     else:
         return ErrorResponse(type="ValueError", message="No categories found.")
 
@@ -93,61 +91,137 @@ async def delete_category(category_id: int, db : Session = Depends(get_db)):
     if category:
         db.delete(category)
         db.commit()
-
-    return Response(status_code = status.HTTP_204_NO_CONTENT)
-
+        return Response(status_code = status.HTTP_204_NO_CONTENT)
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Category not found')
 
 
 
 
 
 # create expense
-@router.post('/expenses/', tags=['expense'])
-async def create_expense(payload: Expense):
-    expenses.append(payload.dict())
-    return {"message": "Expense created successfully."}
+@router.post('/expenses/',
+            tags=['expense'],
+            response_model = Union[ExpenseResponse, ErrorResponse],
+            status_code = status.HTTP_201_CREATED
+            )
+
+async def create_expense(payload: Expense, db: Session = Depends(get_db)):
+    # get category
+    category = db.query(CategoryModel).filter_by(name = payload.category).first()
+    if category:
+        expense = ExpenseModel(
+            category = category,
+            date = payload.date,
+            category_id = category.id, # get category id from category fetched from categories table
+            description = payload.description,
+            amount = payload.amount
+        )
+
+        # Add expense to db
+        db.add(expense)
+        db.commit()
+        # get expense with expense id which is auto gen by db
+        db.refresh(expense)
+
+        expense_response = ExpenseResponse(
+            id = expense.amount,
+            category = CategoryResponse(
+                id = category.id,
+                name = category.name,
+                description = category.description
+            ),
+            date = expense.date,
+            description = expense.description,
+            amount = expense.amount
+        )
+        
+        return expense_response
+
+    else:
+        return ErrorResponse(type = 'ValueError', message = 'Category not found.')
+        
 
 # fetch all expenses
 @router.get('/expenses/',
             tags=['expense'],
-            response_model=Union[ExpenseResponseList, ErrorResponse]
+            response_model=Union[ExpenseResponseList, ErrorResponse],
+            status_code= status.HTTP_200_OK
             )
 
-async def get_expenses():
+async def get_expenses(db: Session = Depends(get_db)):
+    expenses = db.query(ExpenseModel).all()
     if expenses:
-        return ExpenseResponseList(expenses=expenses)
+        return {"result": expenses}
     else:
         return ErrorResponse(type="ValueError", message="No expenses found.")
 
 # fetch single expense
-@router.get('/expenses/{id}', tags=['expense'])
+@router.get('/expenses/{expense_id}',
+            tags=['expense'],
+            response_model= Union[ExpenseResponse, ErrorResponse],
+            status_code= status.HTTP_200_OK
+            )
 
-async def get_expense(id: int):
-    for expense in expenses:
-        if expense["id"] == id:
-            return expense
+async def get_expense(expense_id: int, db: Session = Depends(get_db)):
+    expense = db.query(ExpenseModel).filter(ExpenseModel.id == expense_id).first()
+    if expense:
+        return expense
     return ErrorResponse(type="ValueError", message="Expense not found.")
 
 # update expense
-@router.put('/expenses/{id}', tags=['expense'])
+@router.put('/expenses/{expense_id}',
+            tags=['expense'],
+            response_model= Union[ExpenseResponse, ErrorResponse],
+            status_code = status.HTTP_200_OK)
 
-async def update_expense(id: int, payload: Expense):
-    for expense in expenses:
-        if expense["id"] == id:
-            expense["id"] = payload.id
-            expense["date"] = payload.date
-            expense["category"] = payload.category
-            expense["description"] = payload.description
-            expense["amount"] = payload.amount
-            return {"message": "Expense updated successfully."}
+async def update_expense(expense_id: int, payload: Expense, db: Session = Depends(get_db)):
+    expense = db.query(ExpenseModel).filter(ExpenseModel.id == expense_id).first()
+    if expense:
+        # Check the category of new expense
+        category = db.query(CategoryModel).filter_by(name = payload.category).first()
+        if category:
+            expense.category = category
+            expense.category_id = category.id
+            expense.date = payload.date
+            expense.description = payload.description
+            expense.amount = payload.amount
+            db.commit()
+            db.refresh(expense)
+
+            # get response
+            updated_expense = ExpenseResponse(
+                id = expense.id,
+                category = CategoryResponse(
+                    id = category.id,
+                    name = category.name,
+                    description = category.description
+                ),
+
+                date = expense.date,
+                description = expense.description,
+                amount = expense.amount
+            )
+            return updated_expense
+
+        else:
+            return ErrorResponse(type="ValueError", message="Category not found.")
+
+
     return ErrorResponse(type="ValueError", message="Expense not found.")
 
 # delete expense
-@router.delete('/expenses/{id}', tags=['expense'])
+@router.delete('/expenses/{expense_id}',
+               tags=['expense'],
+               status_code= status.HTTP_204_NO_CONTENT
+            )
 
-async def delete_expense(id: int):
-    for index, expense in enumerate(expenses):
-        if expense["id"] == id:
-            expenses.pop(index)
-            return {"message": "Expense deleted successfully."}
-    return ErrorResponse(type="ValueError", message="Expense not found.")
+async def delete_expense(expense_id: int, db: Session = Depends(get_db)):
+    expense = db.query(ExpenseModel).filter_by(id = expense_id).first()
+    if expense:
+        db.delete(expense)
+        db.commit()
+        return Response(status_code= status.HTTP_204_NO_CONTENT)
+    
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Expense not found')
