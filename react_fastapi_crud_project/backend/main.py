@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
 from typing import List
-
-from schemas import Todo
+from base import get_db
+from schemas import Todo, TodoResponse, TodoUpdate
+from service import get_all_todos, add_todo, delete_todo, update_todo
 
 app = FastAPI()
 
@@ -14,34 +16,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-todos = [
-    {"id": 1, "task": "Buy groceries", "completed": False},
-    {"id": 2, "task": "Clean the house", "completed": True},
-    {"id": 3, "task": "Do the laundry", "completed": False},
-    {"id": 4, "task": "Walk the dog", "completed": False},
-    {"id": 5, "task": "Wash the car", "completed": False},
-    {"id": 6, "task": "Mow the lawn", "completed": True},
-]
 
-@app.get("/todos/", response_model= List[dict])
-def get_todos():
-    return todos
+@app.get("/todos/", response_model=List[TodoResponse])
+def get_todos(db: Session = Depends(get_db)):
+    return get_all_todos(db)
 
 @app.post("/todos/")
-def create_todos(todo: Todo):
-    id = len(todos) + 1  # a more robust way to generate id?
-    completed = False
-    new_todo = {"id": id, **todo.dict(), "completed": completed}
-    todos.append(new_todo)
-    print(todos)
-    return new_todo  
+def create_todos(todo: Todo, db: Session = Depends(get_db)):
+    return add_todo(db, todo)
 
 @app.delete('/todos/{id}/')
-def delete_todos(id: int):
-    for todo in todos:
-        if todo['id'] == id:
-            todos.remove(todo)
-            print(todos)
-            return todo
-    
-    return {"message": "Todo not found"}
+def delete_todos(id: int, db: Session = Depends(get_db)):
+    todo = delete_todo(db, id)
+    if todo is None:
+        return {"message": "Todo not found"}
+    return {"message": "Todo deleted"}
+
+@app.put('/todos/{id}/')
+def update_todos(id: int, todo_update: TodoUpdate, db: Session = Depends(get_db)):
+    todo = update_todo(db, id, todo_update.completed)
+    if todo is None:
+        return {"message": "Todo not found"}
+    return {"message": "Todo updated"}

@@ -1,12 +1,21 @@
 import React from "react";
 import { useState } from "react";
-import "font-awesome/css/font-awesome.min.css";
 
 function Todo({ todo, onDelete }) {
   const [isChecked, setIsChecked] = useState(todo.completed);
 
   const handleIsChecked = () => {
-    setIsChecked(!isChecked);
+    const newIsChecked = !isChecked;
+    setIsChecked(newIsChecked);
+
+    // Update the completed status in the database
+    fetch(`http://127.0.0.1:8000/todos/${todo.id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ completed: newIsChecked }),
+    });
   };
 
   const handleDelete = () => {
