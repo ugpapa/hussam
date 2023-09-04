@@ -10,3 +10,7 @@ class TodoResponse(BaseModel):
 
 class TodoUpdate(BaseModel):
     completed: bool
+
+class User(BaseModel):
+    username: str
+    password: str
