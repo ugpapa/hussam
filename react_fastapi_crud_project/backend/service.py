@@ -3,6 +3,7 @@ from models import Todo as TodoModel, User as UserModel
 from schemas import Todo, User
 from passlib.hash import argon2
 from custom_erros import *
+from token_utils import create_access_token, create_refresh_token
 
 def get_all_todos(db: Session, username: str):
     return db.query(TodoModel).join(UserModel).filter(UserModel.username == username).all()
@@ -54,4 +55,8 @@ def login_user(db:Session, user: User):
     verified_password = argon2.verify(user.password, user_exists.password)
     if not verified_password:
         raise PasswordDoesNotMatch(user.username)
-    return user_exists
+    
+    user_info = {"username": user_exists.username, "password": user_exists.password}
+    access_token = create_access_token(user_info)
+    refresh_token = create_refresh_token(user_info)
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}

@@ -8,21 +8,32 @@ function Todo({ todo, onDelete }) {
     const newIsChecked = !isChecked;
     setIsChecked(newIsChecked);
 
-    // Update the completed status in the database
     fetch(`http://127.0.0.1:8000/todos/${todo.id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
       },
       body: JSON.stringify({ completed: newIsChecked }),
+    }).catch((error) => {
+      console.error("Error updating todo:", error);
+      // Handle the error, e.g., redirect to login if token is expired
     });
   };
 
   const handleDelete = () => {
     fetch(`http://127.0.0.1:8000/todos/${todo.id}/`, {
       method: "DELETE",
-    }).then(() => {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+      },
+    })
+    .then(() => {
       onDelete(todo.id);
+    })
+    .catch((error) => {
+      console.error("Error deleting todo:", error);
+      // Handle the error
     });
   };
 
