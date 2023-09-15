@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { getPosts } from "@/apis/posts";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { getPosts } from "@/apis/posts";
 
 interface PostType {
   id: number;
@@ -28,10 +28,10 @@ function ProfileReactQuery() {
       <ul>
         {data.map((post: PostType) => (
           <li key={post.id}>
-            <div>{post.title}</div>  
+            <div>{post.title}</div>
             <div>{[post.content]}</div>
           </li>
-          
+
         ))}
       </ul>
     </div>
